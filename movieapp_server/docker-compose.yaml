@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:14.1
+    ports:
+      - '8090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: movieapp
+      POSTGRES_PASSWORD: "CTlGGpE0dL7vYSoHgBeXaUlBW74XTzVV"
+    volumes:
+      - movieapp_data:/var/lib/postgresql/data
+  redis:
+    image: redis:6.2.6
+    ports:
+      - '8091:6379'
+    command: redis-server --requirepass "_Dq0OwBnSiA_oogY2gwyKl1VHDt52h1v"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+volumes:
+  movieapp_data:
