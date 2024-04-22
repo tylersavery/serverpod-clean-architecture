@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_flutter/features/app_user/presentation/cubits/cubit/app_user_cubit.dart';
 import 'package:movieapp_flutter/features/auth/presentation/bloc/auth_bloc.dart';

@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:movieapp_flutter/core/entities/user.dart';
 import 'package:movieapp_flutter/core/error/exceptions.dart';
 import 'package:movieapp_flutter/core/error/failure.dart';
