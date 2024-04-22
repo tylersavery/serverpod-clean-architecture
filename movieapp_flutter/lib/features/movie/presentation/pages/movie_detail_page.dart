@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:movieapp_flutter/core/utils/show_snackbar.dart';
 import 'package:movieapp_flutter/core/widgets/loader.dart';
 import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_retrieve/movie_retrieve_bloc.dart';
 import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_retrieve/movie_retrieve_event.dart';
@@ -29,11 +30,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     return BlocConsumer<MovieRetrieveBloc, MovieRetrieveState>(
       listener: (context, state) {
         if (state is MovieRetrieveStateFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-            ),
-          );
+          showSnackbar(context, state.message);
+
           context.pop();
         }
       },
@@ -58,10 +56,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
               body: Column(
                 children: [
                   Text("Released: ${movie.year}"),
-                  Text(
-                    "Directory: ${movie.directorName}",
-                  ),
-                  Text("Directory: ${movie.logline}"),
+                  Text("Director: ${movie.directorName}"),
+                  Text("Logine: ${movie.logline}"),
                 ],
               ),
             );

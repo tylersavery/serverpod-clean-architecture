@@ -2,4 +2,5 @@ example:
   - hello:
 movie:
   - list:
+  - retrieve:
   - create:

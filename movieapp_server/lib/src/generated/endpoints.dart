@@ -12,6 +12,7 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import '../endpoints/example_endpoint.dart' as _i2;
 import '../endpoints/movie_endpoint.dart' as _i3;
 import 'package:movieapp_server/src/generated/movie.dart' as _i4;
+import 'package:serverpod_auth_server/module.dart' as _i5;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -67,6 +68,24 @@ class Endpoints extends _i1.EndpointDispatch {
           ) async =>
               (endpoints['movie'] as _i3.MovieEndpoint).list(session),
         ),
+        'retrieve': _i1.MethodConnector(
+          name: 'retrieve',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['movie'] as _i3.MovieEndpoint).retrieve(
+            session,
+            params['id'],
+          ),
+        ),
         'create': _i1.MethodConnector(
           name: 'create',
           params: {
@@ -87,5 +106,6 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    modules['serverpod_auth'] = _i5.Endpoints()..initializeEndpoints(server);
   }
 }

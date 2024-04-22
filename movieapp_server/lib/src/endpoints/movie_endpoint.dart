@@ -6,6 +6,10 @@ class MovieEndpoint extends Endpoint {
     return Movie.db.find(session);
   }
 
+  Future<Movie?> retrieve(Session session, int id) async {
+    return Movie.db.findById(session, id);
+  }
+
   Future<Movie> create(Session session, Movie movie) async {
     return await Movie.db.insertRow(session, movie);
   }
