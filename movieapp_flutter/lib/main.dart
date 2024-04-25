@@ -5,7 +5,8 @@ import 'package:movieapp_flutter/core/router/app_router.dart';
 import 'package:movieapp_flutter/dependencies.dart';
 import 'package:movieapp_flutter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_list/movie_list_bloc.dart';
-import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_retrieve/movie_retrieve_bloc.dart';
+import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_detail/movie_detail_bloc.dart';
+import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_manage/movie_manage_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,10 @@ void main() async {
           create: (_) => serviceLocator<MovieListBloc>(),
         ),
         BlocProvider(
-          create: (_) => serviceLocator<MovieRetrieveBloc>(),
+          create: (_) => serviceLocator<MovieDetailBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => serviceLocator<MovieManageBloc>(),
         ),
       ],
       child: const MyApp(),

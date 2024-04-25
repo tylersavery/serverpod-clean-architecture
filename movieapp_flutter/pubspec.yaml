@@ -37,7 +37,7 @@ dependencies:
   flutter_bloc: ^8.1.5
   get_it: ^7.7.0
   go_router: ^13.2.4
-  serverpod_auth_email_flutter: ^1.2.6
+  serverpod_auth_email_flutter: 1.2.6
 
 dev_dependencies:
   flutter_lints: ^3.0.0

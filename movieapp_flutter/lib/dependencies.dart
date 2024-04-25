@@ -13,10 +13,13 @@ import 'package:movieapp_flutter/features/auth/presentation/bloc/auth_bloc.dart'
 import 'package:movieapp_flutter/features/movie/data/datasources/movie_datasource.dart';
 import 'package:movieapp_flutter/features/movie/data/repositories/movie_repository_impl.dart';
 import 'package:movieapp_flutter/features/movie/domain/repositories/movie_repository.dart';
+import 'package:movieapp_flutter/features/movie/domain/usecases/delete_movie.dart';
 import 'package:movieapp_flutter/features/movie/domain/usecases/list_movies.dart';
 import 'package:movieapp_flutter/features/movie/domain/usecases/retrieve_movie.dart';
+import 'package:movieapp_flutter/features/movie/domain/usecases/save_movie.dart';
 import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_list/movie_list_bloc.dart';
-import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_retrieve/movie_retrieve_bloc.dart';
+import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_detail/movie_detail_bloc.dart';
+import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_manage/movie_manage_bloc.dart';
 import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 
@@ -136,6 +139,18 @@ void _initMovie() {
     ),
   );
 
+  serviceLocator.registerFactory<SaveMovieUseCase>(
+    () => SaveMovieUseCase(
+      serviceLocator<MovieRepository>(),
+    ),
+  );
+
+  serviceLocator.registerFactory<DeleteMovieUseCase>(
+    () => DeleteMovieUseCase(
+      serviceLocator<MovieRepository>(),
+    ),
+  );
+
   // Blocs
 
   serviceLocator.registerLazySingleton(
@@ -145,8 +160,16 @@ void _initMovie() {
   );
 
   serviceLocator.registerLazySingleton(
-    () => MovieRetrieveBloc(
+    () => MovieDetailBloc(
       retrieveMovie: serviceLocator<RetrieveMovieUseCase>(),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => MovieManageBloc(
+      retrieveMovie: serviceLocator<RetrieveMovieUseCase>(),
+      saveMovie: serviceLocator<SaveMovieUseCase>(),
+      deleteMovie: serviceLocator<DeleteMovieUseCase>(),
     ),
   );
 }

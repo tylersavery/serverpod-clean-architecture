@@ -49,11 +49,17 @@ class EndpointMovie extends _i1.EndpointRef {
         {'id': id},
       );
 
-  _i2.Future<_i3.Movie> create(_i3.Movie movie) =>
+  _i2.Future<_i3.Movie> save(_i3.Movie movie) =>
       caller.callServerEndpoint<_i3.Movie>(
         'movie',
-        'create',
+        'save',
         {'movie': movie},
+      );
+
+  _i2.Future<void> delete(int id) => caller.callServerEndpoint<void>(
+        'movie',
+        'delete',
+        {'id': id},
       );
 }
 

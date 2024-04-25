@@ -86,8 +86,8 @@ class Endpoints extends _i1.EndpointDispatch {
             params['id'],
           ),
         ),
-        'create': _i1.MethodConnector(
-          name: 'create',
+        'save': _i1.MethodConnector(
+          name: 'save',
           params: {
             'movie': _i1.ParameterDescription(
               name: 'movie',
@@ -99,9 +99,27 @@ class Endpoints extends _i1.EndpointDispatch {
             _i1.Session session,
             Map<String, dynamic> params,
           ) async =>
-              (endpoints['movie'] as _i3.MovieEndpoint).create(
+              (endpoints['movie'] as _i3.MovieEndpoint).save(
             session,
             params['movie'],
+          ),
+        ),
+        'delete': _i1.MethodConnector(
+          name: 'delete',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            )
+          },
+          call: (
+            _i1.Session session,
+            Map<String, dynamic> params,
+          ) async =>
+              (endpoints['movie'] as _i3.MovieEndpoint).delete(
+            session,
+            params['id'],
           ),
         ),
       },

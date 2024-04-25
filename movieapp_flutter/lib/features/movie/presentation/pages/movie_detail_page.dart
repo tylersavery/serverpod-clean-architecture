@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movieapp_flutter/core/utils/show_snackbar.dart';
 import 'package:movieapp_flutter/core/widgets/loader.dart';
-import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_retrieve/movie_retrieve_bloc.dart';
-import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_retrieve/movie_retrieve_event.dart';
-import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_retrieve/movie_retrieve_state.dart';
+import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_detail/movie_detail_bloc.dart';
+import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_detail/movie_detail_event.dart';
+import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_detail/movie_detail_state.dart';
+import 'package:movieapp_flutter/features/movie/presentation/pages/movie_edit_page.dart';
 
 class MovieDetailPage extends StatefulWidget {
   static String route([int? movieId]) => "/movies/${movieId ?? ':id'}";
@@ -22,14 +23,14 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
-    context.read<MovieRetrieveBloc>().add(FetchMovieEvent(id: widget.movieId));
+    context.read<MovieDetailBloc>().add(MovieDetailRetrieveEvent(id: widget.movieId));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MovieRetrieveBloc, MovieRetrieveState>(
+    return BlocConsumer<MovieDetailBloc, MovieDetailState>(
       listener: (context, state) {
-        if (state is MovieRetrieveStateFailure) {
+        if (state is MovieDetailStateFailure) {
           showSnackbar(context, state.message);
 
           context.pop();
@@ -37,28 +38,37 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       },
       builder: (context, state) {
         switch (state) {
-          case MovieRetrieveStateLoading():
+          case MovieDetailStateLoading():
             return const Scaffold(body: Loader());
-          case MovieRetrieveStateFailure():
+          case MovieDetailStateFailure():
             return Scaffold(
                 body: Center(
               child: Text(state.message),
             ));
-          case MovieRetrieveStateInitial():
+          case MovieDetailStateInitial():
             return const Scaffold(body: SizedBox());
-          case MovieRetrieveStateSuccess():
+          case MovieDetailStateSuccess():
             final movie = state.movie;
 
             return Scaffold(
               appBar: AppBar(
                 title: Text(movie.title),
-              ),
-              body: Column(
-                children: [
-                  Text("Released: ${movie.year}"),
-                  Text("Director: ${movie.directorName}"),
-                  Text("Logine: ${movie.logline}"),
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        context.push(MovieEditPage.route(movie.id));
+                      },
+                      icon: const Icon(Icons.edit))
                 ],
+              ),
+              body: Center(
+                child: Column(
+                  children: [
+                    Text("Released: ${movie.year}"),
+                    Text("Director: ${movie.directorName}"),
+                    Text("Logine: ${movie.logline}"),
+                  ],
+                ),
               ),
             );
         }

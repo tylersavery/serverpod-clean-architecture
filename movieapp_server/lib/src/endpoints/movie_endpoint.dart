@@ -10,7 +10,11 @@ class MovieEndpoint extends Endpoint {
     return Movie.db.findById(session, id);
   }
 
-  Future<Movie> create(Session session, Movie movie) async {
-    return await Movie.db.insertRow(session, movie);
+  Future<Movie> save(Session session, Movie movie) async {
+    return await (movie.id != null ? Movie.db.updateRow(session, movie) : Movie.db.insertRow(session, movie));
+  }
+
+  Future<void> delete(Session session, int id) async {
+    await Movie.db.deleteWhere(session, where: (row) => row.id.equals(id));
   }
 }

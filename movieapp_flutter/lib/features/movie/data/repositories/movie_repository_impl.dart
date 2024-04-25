@@ -27,4 +27,22 @@ class MovieRepositoryImpl implements MovieRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, Movie>> save(Movie movie) async {
+    try {
+      return right(await datasource.save(movie));
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> delete(int id) async {
+    try {
+      return right(await datasource.delete(id));
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

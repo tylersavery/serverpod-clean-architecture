@@ -47,7 +47,7 @@ class _MovieListWidgetState extends State<MovieListWidget> {
                     title: Text(movie.title),
                     subtitle: Text("Released in ${movie.year}"),
                     onTap: () {
-                      context.push(MovieDetailPage.route(53324));
+                      context.push(MovieDetailPage.route(movie.id));
                     },
                   ),
                 );
