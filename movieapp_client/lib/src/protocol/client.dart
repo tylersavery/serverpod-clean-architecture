@@ -15,6 +15,27 @@ import 'package:serverpod_auth_client/module.dart' as _i4;
 import 'protocol.dart' as _i5;
 
 /// {@category Endpoint}
+class EndpointAsset extends _i1.EndpointRef {
+  EndpointAsset(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'asset';
+
+  _i2.Future<String?> getUploadDescription(String path) =>
+      caller.callServerEndpoint<String?>(
+        'asset',
+        'getUploadDescription',
+        {'path': path},
+      );
+
+  _i2.Future<bool> verifyUpload(String path) => caller.callServerEndpoint<bool>(
+        'asset',
+        'verifyUpload',
+        {'path': path},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointExample extends _i1.EndpointRef {
   EndpointExample(_i1.EndpointCaller caller) : super(caller);
 
@@ -86,10 +107,13 @@ class Client extends _i1.ServerpodClient {
           streamingConnectionTimeout: streamingConnectionTimeout,
           connectionTimeout: connectionTimeout,
         ) {
+    asset = EndpointAsset(this);
     example = EndpointExample(this);
     movie = EndpointMovie(this);
     modules = _Modules(this);
   }
+
+  late final EndpointAsset asset;
 
   late final EndpointExample example;
 
@@ -99,6 +123,7 @@ class Client extends _i1.ServerpodClient {
 
   @override
   Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'asset': asset,
         'example': example,
         'movie': movie,
       };

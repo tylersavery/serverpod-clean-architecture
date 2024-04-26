@@ -1,3 +1,6 @@
+asset:
+  - getUploadDescription:
+  - verifyUpload:
 example:
   - hello:
 movie:

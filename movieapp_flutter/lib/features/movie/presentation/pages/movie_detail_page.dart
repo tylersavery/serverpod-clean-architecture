@@ -66,7 +66,12 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   children: [
                     Text("Released: ${movie.year}"),
                     Text("Director: ${movie.directorName}"),
-                    Text("Logine: ${movie.logline}"),
+                    Text("Logline: ${movie.logline}"),
+                    if (movie.imageUrl.isNotEmpty)
+                      Image.network(
+                        movie.imageUrl,
+                        width: double.infinity,
+                      )
                   ],
                 ),
               ),

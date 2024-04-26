@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:movieapp_client/movieapp_client.dart';
 import 'package:movieapp_flutter/core/utils/show_snackbar.dart';
 import 'package:movieapp_flutter/core/widgets/loader.dart';
+import 'package:movieapp_flutter/features/asset/presentation/widgets/upload_file_widget.dart';
 import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_detail/movie_detail_bloc.dart';
 import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_detail/movie_detail_event.dart';
 import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_list/movie_list_bloc.dart';
@@ -33,6 +34,8 @@ class _MovieEditPageState extends State<MovieEditPage> {
 
   final formKey = GlobalKey<FormState>();
 
+  String imageUrl = "";
+
   bool get isEditing {
     return widget.movieId != null && widget.movieId! > 0;
   }
@@ -58,7 +61,7 @@ class _MovieEditPageState extends State<MovieEditPage> {
                   id: widget.movieId,
                   title: titleController.text,
                   year: int.parse(yearController.text),
-                  imageUrl: "",
+                  imageUrl: imageUrl,
                   logline: loglineController.text,
                   directorName: directorNameController.text,
                 );
@@ -91,6 +94,9 @@ class _MovieEditPageState extends State<MovieEditPage> {
             yearController.text = state.movie.year.toString();
             loglineController.text = state.movie.logline;
             directorNameController.text = state.movie.directorName;
+            setState(() {
+              imageUrl = state.movie.imageUrl;
+            });
           }
         },
         builder: (context, state) {
@@ -163,6 +169,18 @@ class _MovieEditPageState extends State<MovieEditPage> {
                         }
                         return null;
                       },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 16),
+                      child: UploadFileWidget(
+                        url: imageUrl,
+                        label: "Movie Poster Image",
+                        onComplete: (url) {
+                          setState(() {
+                            imageUrl = url;
+                          });
+                        },
+                      ),
                     ),
                     if (isEditing)
                       Padding(

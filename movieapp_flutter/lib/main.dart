@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movieapp_flutter/features/app_user/presentation/cubits/cubit/app_user_cubit.dart';
 import 'package:movieapp_flutter/core/router/app_router.dart';
 import 'package:movieapp_flutter/dependencies.dart';
+import 'package:movieapp_flutter/features/asset/presentation/bloc/asset_bloc.dart';
 import 'package:movieapp_flutter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_list/movie_list_bloc.dart';
 import 'package:movieapp_flutter/features/movie/presentation/bloc/movie_detail/movie_detail_bloc.dart';
@@ -28,6 +29,9 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => serviceLocator<MovieManageBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => serviceLocator<AssetBloc>(),
         ),
       ],
       child: const MyApp(),

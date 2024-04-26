@@ -1,6 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:movieapp_client/movieapp_client.dart';
 import 'package:movieapp_flutter/features/app_user/presentation/cubits/cubit/app_user_cubit.dart';
+import 'package:movieapp_flutter/features/asset/data/datasources/asset_data_source.dart';
+import 'package:movieapp_flutter/features/asset/data/repositories/asset_repository_impl.dart';
+import 'package:movieapp_flutter/features/asset/domain/repositories/asset_repository.dart';
+import 'package:movieapp_flutter/features/asset/domain/usecases/upload_image.dart';
+import 'package:movieapp_flutter/features/asset/presentation/bloc/asset_bloc.dart';
 import 'package:movieapp_flutter/features/auth/data/datasources/auth_datasource.dart';
 import 'package:movieapp_flutter/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:movieapp_flutter/features/auth/domain/respositories/auth_repository.dart';
@@ -47,6 +52,7 @@ Future<void> initDependencies() async {
 
   _initAuth();
   _initMovie();
+  _initAsset();
 }
 
 void _initAuth() {
@@ -170,6 +176,35 @@ void _initMovie() {
       retrieveMovie: serviceLocator<RetrieveMovieUseCase>(),
       saveMovie: serviceLocator<SaveMovieUseCase>(),
       deleteMovie: serviceLocator<DeleteMovieUseCase>(),
+    ),
+  );
+}
+
+void _initAsset() {
+// Data Source
+  serviceLocator.registerFactory<AssetDataSource>(
+    () => AssetDataSourceImpl(
+      serviceLocator<Client>(),
+    ),
+  );
+
+  // Repository
+  serviceLocator.registerFactory<AssetRepository>(
+    () => AssetRepositoryImpl(
+      serviceLocator<AssetDataSource>(),
+    ),
+  );
+
+  // Use Case
+  serviceLocator.registerFactory<UploadImageUseCase>(
+    () => UploadImageUseCase(
+      serviceLocator<AssetRepository>(),
+    ),
+  );
+
+  serviceLocator.registerLazySingleton(
+    () => AssetBloc(
+      uploadImage: serviceLocator<UploadImageUseCase>(),
     ),
   );
 }
